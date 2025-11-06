@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import fetchPlants from "../utils/plantsData";
 import PlantCard from "../components/PlantCard";
@@ -18,9 +17,12 @@ export default function Home() {
     fetchPlants().then(setPlants);
   }, []);
 
-  const topRated = plants.filter((p) => p.rating >= 4.7).slice(0, 3);
+  // Top Rated: Sort by rating (descending), take top 3
+  const topRated = [...plants]
+    .sort((a, b) => b.rating - a.rating)
+    .slice(0, 3);
 
-  const heroSlides = [
+ const heroSlides = [
     {
       bg: "https://cdn.mos.cms.futurecdn.net/T46YEc2vCtWBrc3z2YFzcd.jpg",
       title: "Welcome to GreenNest",
@@ -58,61 +60,40 @@ export default function Home() {
               style={{ backgroundImage: `url(${slide.bg})` }}
             >
               <div className="absolute inset-0 bg-none bg-opacity-40"></div>
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6">
-                <h1 className="text-4xl md:text-6xl font-bold mb-3 drop-shadow-lg">
-                  {slide.title}
-                </h1>
-                <p className="text-xl md:text-2xl drop-shadow">{slide.subtitle}</p>
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4">
+                <h1 className="text-4xl md:text-5xl font-bold">{slide.title}</h1>
+                <p className="mt-2 text-lg md:text-xl">{slide.subtitle}</p>
               </div>
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
 
-{/* TOP RATED PLANTS */}
-<section className="py-16 bg-white">
-  <div className="max-w-7xl mx-auto px-4 text-center">
-    <h2 className="text-3xl font-bold text-green-700 mb-8">
-      Top Rated Indoor Plants
-    </h2>
-
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {[...plants]
-        .sort((a, b) => b.rating - a.rating) 
-        .slice(0, 3) 
-        .map((plant) => (
-          <PlantCard key={plant.plantId} plant={plant} />
-        ))}
-    </div>
-  </div>
-</section>
-
-
-
-
-      {/* PLANTS PREVIEW (See More) */}
-      <PlantsPreview />
+      {/* TOP RATED PLANTS */}
+      <PlantsPreview plants={topRated} />
 
       {/* PLANT CARE TIPS */}
-      <section className="py-12 bg-green-50">
-        <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-3 gap-6 text-center">
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-xl font-bold text-green-700 mb-2">Water Wisely</h3>
-            <p>Check soil moisture before watering. Overwatering kills more plants than underwatering.</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow">
-            <d className="text-xl font-bold text-green-700 mb-2">Bright Light</d>
-            <p>Most indoor plants love bright, indirect light. South-facing windows are ideal.</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-xl font-bold text-green-700 mb-2">Fertilize Monthly</h3>
-            <p>Use balanced fertilizer during growing season.</p>
+      <section className="py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold mb-8 text-green-800">Plant Care Tips</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { icon: "💧", title: "Watering", tip: "Water when top soil is dry. Avoid overwatering." },
+              { icon: "☀️", title: "Sunlight", tip: "Most indoor plants love bright, indirect light." },
+              { icon: "🌱", title: "Fertilizing", tip: "Feed monthly during growing season." },
+            ].map((item, i) => (
+              <div key={i} className="bg-green-50 p-6 rounded-lg shadow hover:shadow-lg transition">
+                <div className="text-4xl mb-3">{item.icon}</div>
+                <h4 className="font-semibold text-green-700">{item.title}</h4>
+                <p className="text-sm text-gray-600 mt-1">{item.tip}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* MEET OUR GREEN EXPERTS */}
-      <section className="py-12 bg-white">
+      {/* MEET OUR EXPERTS */}
+       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-8 text-green-800">Meet Our Green Experts</h2>
           <div className="grid md:grid-cols-4 gap-6">
@@ -137,17 +118,16 @@ export default function Home() {
       </section>
 
       {/* PLANT OF THE WEEK */}
-      <section className="bg-gradient-to-b from-green-50 to-white py-12">
+      <section className="py-12 bg-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4 text-green-800">Plant of the Week</h2>
-          <p className="text-lg mb-6">
-            Featured: <strong>Monstera Deliciosa</strong> — Iconic & Easy!
-          </p>
+          <h2 className="text-3xl font-bold mb-6 text-green-800">Plant of the Week</h2>
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ82-_rhfp802qBpoAd1aK9lGhC_Jmagb8rJs4gvfyBz1Lj5rvLpXEPZhnZZZ1t1MXtN9rGVrplNDK3m4RJsVTIjqBu5UKyQkmGlAx_Ohs&s=10"
+            src="https://i0.wp.com/buygreen.in/wp-content/uploads/2022/09/bird-nest-snake-plant.gif?fit=960%2C960&ssl=1"
             alt="Plant of the Week"
             className="mx-auto rounded-xl shadow-xl max-h-72 object-cover border-4 border-green-200"
           />
+          <h3 className="mt-4 text-xl font-bold text-green-700">Snake Plant</h3>
+          <p className="text-gray-600">The ultimate low-maintenance air purifier!</p>
         </div>
       </section>
 

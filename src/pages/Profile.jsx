@@ -18,7 +18,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-20 p-6 bg-white rounded shadow-lg">
+    <div className="max-w-md mx-auto mt-20 p-6 bg-white rounded shadow-2xl">
       <h2 className="text-2xl font-bold text-center mb-6">My Profile</h2>
       <img src={user?.photoURL || "https://i.postimg.cc/0jGGGk0L/user.png"} className="w-24 h-24 mx-auto rounded-full" />
       <p className="text-center mt-2 font-semibold">{user?.displayName}</p>
