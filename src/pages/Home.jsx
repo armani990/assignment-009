@@ -156,7 +156,7 @@ export default function Home() {
             </div>
             <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJqxcGojUQcjQxj1LuBiko5Q5DGaZvJzl5ug&s"
+                src="https://file.app.ikea.cn/content/u/20240925/D5A724AB-30FC-43D3-AF1F5DD4020DE7E6.jpg?x-oss-process=style/large&x-oss-process=style/medium"
                 alt="Corner Jungle"
                 className="w-full h-48 object-cover rounded"
               />
